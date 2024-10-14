@@ -19,7 +19,7 @@ phases:
       - echo Building the Docker image...
       - ls -al
       - docker build -t my-react-app .
-      - docker tag my-react-app:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/myfirstproject:latest
+      - docker tag my-react-app:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/chichu
   post_build:
     commands:
       - echo Pushing the Docker image to ECR...
