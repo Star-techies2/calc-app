@@ -1,45 +1,35 @@
-
-import './App.css'
-
-import { useState } from 'react';
+// src/App.tsx
+import { useState, useEffect } from 'react';
 
 const App = () => {
-    const [num1, setNum1] = useState('');
-    const [num2, setNum2] = useState('');
-    const [sum, setSum] = useState(null);
+    const [message, setMessage] = useState<string>('');
+    const [loading, setLoading] = useState<boolean>(true);
 
-    const handleSubmit = async (e: { preventDefault: () => void; }) => {
-        e.preventDefault();
-        const response = await fetch('YOUR_API_GATEWAY_URL/sum', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ num1: parseFloat(num1), num2: parseFloat(num2) }),
-        });
-        const data = await response.json();
-        setSum(data.sum);
-    };
+    useEffect(() => {
+        const fetchMessage = async () => {
+            try {
+                const response = await fetch('https://6rgv31sf91.execute-api.us-east-1.amazonaws.com/dev/gett');
+                const data = await response.json(); // Parse the JSON response
+                const message = JSON.parse(data.body); // Extract and parse the body field
+                setMessage(message);
+                setLoading(false);
+            } catch (error) {
+                console.error('Error fetching message:', error);
+                setLoading(false);
+            }
+        };
+
+        fetchMessage();
+    }, []);
 
     return (
         <div>
-            <h1>Sum Calculator</h1>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="number"
-                    value={num1}
-                    onChange={(e) => setNum1(e.target.value)}
-                    placeholder="Number 1"
-                />
-                <input
-                    type="number"
-                    value={num2}
-                    onChange={(e) => setNum2(e.target.value)}
-                    placeholder="Number 2"
-                />
-                <button type="submit">Calculate Sum</button>
-            </form>
-            {sum !== null && <h2>Sum: {sum}</h2>}
+            <h1>API Message</h1>
+            {loading ? (
+                <p>Loading...</p>
+            ) : (
+                <p>{message}</p>
+            )}
         </div>
     );
 };
