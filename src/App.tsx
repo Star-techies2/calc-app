@@ -44,16 +44,16 @@ const App = () => {
                     value={num1}
                     onChange={(e) => setNum1(e.target.value)}
                     placeholder="Number 1"
-                />
+                /><br></br>
                 <input
                     type="number"
                     value={num2}
                     onChange={(e) => setNum2(e.target.value)}
                     placeholder="Number 2"
-                />
+                /><br></br>
                 <button type="submit">Calculate Sum</button>
             </form>
-            {sum !== null && <h2>Sum: {sum}</h2>}
+            <h3>Result from API:</h3>{sum !== null && <h2>Sum: {sum}</h2>}
         </div>
     );
 };
